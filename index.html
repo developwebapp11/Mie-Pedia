@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#c2410c">
+<meta name="description" content="MIE PEDIA — Kasir & Inventori F&B. Offline-capable.">
+<title>MIE PEDIA — Kasir & Inventori</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script>try{var t=localStorage.getItem('mp_theme');if(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)t='dark';if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="boot"><div class="logo">🍜</div><div class="spin"></div><div class="muted xs">Memuat MIE PEDIA…</div></div>
+
+<div id="login" class="hidden">
+  <form class="lcard" id="loginForm" autocomplete="off">
+    <div class="lhead"><div class="logo">🍜</div><h1>MIE PEDIA</h1><div class="cap">Kasir &amp; Inventori</div><span class="pill" id="netPill"><i class="dot"></i><span>Online</span></span></div>
+    <div id="lgCfg" class="err hidden">⚠ Konfigurasi belum lengkap: isi <b>GAS_URL</b> di <code>js/config.js</code> dengan URL Web App (/exec), lalu unggah ulang ke GitHub.</div>
+    <div class="fld"><label for="lgShift">Shift kerja</label><select class="sel" id="lgShift"></select></div>
+    <div class="fld"><label for="lgUser">ID karyawan <span class="req">*</span></label><input class="in" id="lgUser" required autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="mis. kasir1"></div>
+    <div class="fld"><label for="lgPass">PIN <span class="req">*</span></label><div class="ig"><input class="in" id="lgPass" type="password" required placeholder="••••••" autocomplete="current-password"><button type="button" class="ibtn" id="lgEye" aria-label="Tampilkan PIN">👁</button></div></div>
+    <div class="fld"><label for="lgCash">Modal awal kas laci (Rp)</label><input class="in m" id="lgCash" data-money inputmode="numeric" value="300.000"><span class="hint">Hitung uang kembalian fisik di laci.</span></div>
+    <label class="chk" style="margin-bottom:10px"><input type="checkbox" id="lgView"> <span class="sm">Owner: hanya lihat laporan (tanpa buka kasir)</span></label>
+    <div id="lgErr" class="err hidden"></div>
+    <button class="btn pri lg blk" id="lgBtn" type="submit">🔓 MASUK &amp; BUKA SHIFT</button>
+    <div class="xs muted c" style="margin-top:12px">Lupa PIN? Hubungi Owner.<br><a href="#" id="lgDarurat">Akses darurat</a> · <span id="lgCredit"></span></div>
+  </form>
+</div>
+
+<div id="app" class="hidden">
+  <aside id="side">
+    <div class="sbrand"><div class="logo">🍜</div><div><b>MIE PEDIA</b><span id="sSia">Kasir &amp; Inventori</span></div></div>
+    <nav id="nav" aria-label="Menu utama"></nav>
+    <div class="sfoot"><div class="ucard" data-act="pin" title="Ganti PIN"><div class="av" id="uAv">MP</div><div><b id="uName">—</b><span id="uSub">—</span></div></div><button class="btn gh" data-act="logout">⏻ Tutup Shift / Keluar</button></div>
+  </aside>
+  <div id="scrim" data-act="burger"></div>
+  <div id="main">
+    <header id="top">
+      <button class="ibtn" id="burger" data-act="burger" aria-label="Menu">☰</button>
+      <div class="ttl"><h1 id="pTitle">Dashboard</h1><div class="sub" id="pSub"></div></div>
+      <span class="pill hidden" id="shiftPill"><i class="dot"></i><span>Shift</span></span>
+      <button class="ibtn" data-act="queue" aria-label="Antrean pengiriman" title="Antrean pengiriman">📤<span class="nb hidden" id="qBadge">0</span></button>
+      <button class="ibtn" id="btnTheme" data-act="theme" aria-label="Ganti tema">🌙</button>
+      <button class="ibtn" id="btnBell" data-act="bell" aria-label="Pemberitahuan">🔔<span class="nb hidden" id="bellN">0</span></button>
+    </header>
+    <div id="pages">
+      <section class="pg" id="pg-dashboard"></section><section class="pg" id="pg-pos"></section><section class="pg" id="pg-riwayat"></section>
+      <section class="pg" id="pg-menu"></section><section class="pg" id="pg-stok"></section><section class="pg" id="pg-biaya"></section>
+      <section class="pg" id="pg-laporan"></section><section class="pg" id="pg-pengaturan"></section>
+    </div>
+    <footer id="status" data-act="queue"><span id="stSync" class="stsync ok"><i class="sd"></i><span>Memuat…</span></span><span class="sp"></span><span class="hid-s" id="stVer"></span></footer>
+  </div>
+  <nav id="bnav" aria-label="Navigasi cepat"></nav>
+</div>
+<div id="mroot"></div><div id="toasts" aria-live="polite"></div><div id="print-root"></div>
+
+<script src="js/config.js" defer></script><script src="js/util.js" defer></script><script src="js/store.js" defer></script><script src="js/net.js" defer></script><script src="js/logic.js" defer></script><script src="js/shell.js" defer></script>
+<script src="js/pos.js" defer></script><script src="js/menu.js" defer></script><script src="js/stok.js" defer></script><script src="js/laporan.js" defer></script><script src="js/admin.js" defer></script>
+<script>window.addEventListener('DOMContentLoaded',function(){document.getElementById('lgCredit').textContent=CFG.CREDIT;document.getElementById('stVer').textContent='MIE PEDIA v'+CFG.VER+' · '+CFG.CREDIT;boot().catch(function(e){console.error(e);document.getElementById('boot').innerHTML='<div class="err" style="max-width:420px">Gagal memuat aplikasi: '+String(e&&e.message||e)+'</div>';});});</script>
+</body>
+</html>
